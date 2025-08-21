@@ -1,0 +1,12 @@
+{
+    "name": "prompt-01",
+    "version": "1.0.0",
+    "description": "Projeto com Mocha para testes em JavaScript.",
+    "main": "src/soma.js",
+    "scripts": {
+        "test": "mocha"
+    },
+    "devDependencies": {
+        "mocha": "^10.0.0"
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "name": "prompt-02",
+    "version": "1.0.0",
+    "description": "API Rest para login, registro, consulta de usuários e transferências.",
+    "main": "app.js",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "devDependencies": {
+        "mocha": "^10.0.0"
+    },
+    "dependencies": {
+        "express": "^4.18.2",
+        "swagger-ui-express": "^4.6.3"
+    }
+}

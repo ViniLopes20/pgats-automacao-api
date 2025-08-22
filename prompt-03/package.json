@@ -1,0 +1,20 @@
+{
+    "name": "prompt-03-login-api",
+    "version": "1.0.0",
+    "description": "API simples de login com testes automatizados.",
+    "main": "app.js",
+    "scripts": {
+        "start": "node server.js",
+        "test": "mocha --exit"
+    },
+    "dependencies": {
+        "express": "^4.18.2",
+        "swagger-ui-express": "^5.0.1"
+    },
+    "devDependencies": {
+        "chai": "^4.3.7",
+        "mocha": "^10.0.0",
+        "sinon": "^16.0.0",
+        "supertest": "^6.3.3"
+    }
+}

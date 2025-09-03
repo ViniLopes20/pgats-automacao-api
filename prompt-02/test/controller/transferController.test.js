@@ -62,9 +62,9 @@ describe('TransferController', () => {
                 });
 
             expect(response.status).to.equal(201);
-            expect(response.body).to.have.property('from', 'vini');
-            expect(response.body).to.have.property('to', 'lopes');
-            expect(response.body).to.have.property('amount', 200);
+            expect(response.body.result).to.have.property('from', 'vini');
+            expect(response.body.result).to.have.property('to', 'lopes');
+            expect(response.body.result).to.have.property('amount', 200);
 
             //Reset Mock
             sinon.restore();

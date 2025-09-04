@@ -1,6 +1,7 @@
 const userModel = require('../model/userModel');
 
-
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET || 'segredo_super_secreto';
 
 function registerUser({ username, password, favorecido, saldo }) {
   if (!username || !password) {
@@ -25,7 +26,8 @@ function loginUser({ username, password }) {
   const user = userModel.getAllUsers().find(u => u.username === username && u.password === password);
   if (!user) throw new Error('Credenciais inválidas');
 
-  return user;
+  const token = jwt.sign({ username: user.username }, JWT_SECRET, { expiresIn: '1h' });
+  return { user, token };
 }
 
 function getUsers() {

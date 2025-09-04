@@ -28,9 +28,11 @@ function transfer({ from, to, amount }) {
 
   sender.saldo -= amount;
   recipient.saldo = (typeof recipient.saldo === 'number' ? recipient.saldo : 0) + amount;
-  transferModel.addTransfer({ from, to, amount, date: new Date() });
 
-  return { from, to, amount };
+  const transfer = { from, to, amount, date: new Date().toISOString() };
+  transferModel.addTransfer(transfer);
+
+  return transfer;
 }
 
 function getTransfers() {

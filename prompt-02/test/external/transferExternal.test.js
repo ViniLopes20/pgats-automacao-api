@@ -6,8 +6,18 @@ const {expect} = require('chai');
 describe('TransferExternal', () => {
     describe('POST /transfer', () => {
         it('Quando informo remetente e destinatário inexistentes recebo 400', async () => {
+            const responseLogin = await request('http://localhost:3000')
+                .post('/login')
+                .send({
+                    username: 'admin',
+                    password: '12345678'
+                });
+
             const response = await request('http://localhost:3000')
                 .post('/transfer')
+                .set({
+                    Authorization: `Bearer ${responseLogin.body.token}`
+                })
                 .send({
                     from: 'vini',
                     to: 'lopes',
@@ -19,6 +29,13 @@ describe('TransferExternal', () => {
         });
 
         it('Quando tento transferir para o mesmo usuário do remetente recebo 400', async () => {
+            const responseLogin = await request('http://localhost:3000')
+                .post('/login')
+                .send({
+                    username: 'admin',
+                    password: '12345678'
+                });
+
             const responseRegister = await request('http://localhost:3000')
                 .post('/register')
                 .send({
@@ -30,6 +47,9 @@ describe('TransferExternal', () => {
 
             const responseTransfer = await request('http://localhost:3000')
                 .post('/transfer')
+                .set({
+                    Authorization: `Bearer ${responseLogin.body.token}`
+                })
                 .send({
                     from: responseRegister.body.username,
                     to: responseRegister.body.username,
@@ -41,6 +61,13 @@ describe('TransferExternal', () => {
         });
 
         it('Quando tento transferir um valor maior que o valor do saldo do remetente recebo 400', async () => {
+            const responseLogin = await request('http://localhost:3000')
+                .post('/login')
+                .send({
+                    username: 'admin',
+                    password: '12345678'
+                });
+
             const responseRegister1 = await request('http://localhost:3000')
                 .post('/register')
                 .send({
@@ -61,6 +88,9 @@ describe('TransferExternal', () => {
 
             const responseTransfer = await request('http://localhost:3000')
                 .post('/transfer')
+                .set({
+                    Authorization: `Bearer ${responseLogin.body.token}`
+                })
                 .send({
                     from: responseRegister1.body.username,
                     to: responseRegister2.body.username,
@@ -72,6 +102,13 @@ describe('TransferExternal', () => {
         });
 
         it('Quando tento transferir um valor acimar de R$5.000,00 para um não favorecido recebo 400', async () => {
+            const responseLogin = await request('http://localhost:3000')
+                .post('/login')
+                .send({
+                    username: 'admin',
+                    password: '12345678'
+                });
+
             const responseRegister1 = await request('http://localhost:3000')
                 .post('/register')
                 .send({
@@ -92,6 +129,9 @@ describe('TransferExternal', () => {
 
             const responseTransfer = await request('http://localhost:3000')
                 .post('/transfer')
+                .set({
+                    Authorization: `Bearer ${responseLogin.body.token}`
+                })
                 .send({
                     from: responseRegister1.body.username,
                     to: responseRegister2.body.username,
@@ -103,6 +143,13 @@ describe('TransferExternal', () => {
         });
 
         it('Quando tento transferir um valor que o remetente possui na conta para um destinatário válido recebo 201', async () => {
+            const responseLogin = await request('http://localhost:3000')
+                .post('/login')
+                .send({
+                    username: 'admin',
+                    password: '12345678'
+                });
+
             const responseRegister1 = await request('http://localhost:3000')
                 .post('/register')
                 .send({
@@ -123,6 +170,9 @@ describe('TransferExternal', () => {
 
             const responseTransfer = await request('http://localhost:3000')
                 .post('/transfer')
+                .set({
+                    Authorization: `Bearer ${responseLogin.body.token}`
+                })
                 .send({
                     from: responseRegister1.body.username,
                     to: responseRegister2.body.username,

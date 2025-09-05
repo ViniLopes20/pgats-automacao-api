@@ -4,10 +4,12 @@
     "description": "API Rest para login, registro, consulta de usuários e transferências.",
     "main": "app.js",
     "scripts": {
-        "start": "node server.js",
+        "start-rest": "node server.js",
+        "start-graphql": "node graphql/server.js",
         "test": "mocha 'test/**/*.test.js' --timeout 10000 --reporter mochawesome",
         "test-controller": "mocha 'test/controller/**/*.test.js' --timeout 10000 --reporter mochawesome",
-        "test-external": "mocha 'test/external/**/*.test.js' --timeout 10000 --reporter mochawesome"
+        "test-external-rest": "mocha 'test/external/REST/**/*.test.js' --timeout 10000 --reporter mochawesome",
+        "test-external-graphql": "mocha 'test/external/GraphQL/**/*.test.js' --timeout 10000 --reporter mochawesome"
     },
     "devDependencies": {
         "mocha": "^10.0.0",

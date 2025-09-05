@@ -13,14 +13,18 @@ const transferService = require('../../service/transferService');
 //Testes
 describe('TransferController', () => {
     describe('POST /transfer', () => {
-        it('Quando informo remetente e destinatário inexistentes recebo 400', async () => {
-            const responseLogin = await request(app)
+        let responseLogin;
+
+        beforeEach(async () => {
+            responseLogin = await request(app)
                 .post('/login')
                 .send({
                     username: 'admin',
                     password: '12345678'
                 });
-                            
+        });
+
+        it('Quando informo remetente e destinatário inexistentes recebo 400', async () => {        
             const response = await request(app)
                 .post('/transfer')
                 .set({
@@ -40,13 +44,6 @@ describe('TransferController', () => {
             const transferServiceMock = sinon.stub(transferService, 'transfer');
             transferServiceMock.throws(new Error('Usuário não encontrado'));
 
-            const responseLogin = await request(app)
-                .post('/login')
-                .send({
-                    username: 'admin',
-                    password: '12345678'
-                });
-
             const response = await request(app)
                 .post('/transfer')
                 .set({
@@ -60,9 +57,6 @@ describe('TransferController', () => {
 
             expect(response.status).to.equal(400);
             expect(response.body).to.have.property('error', 'Usuário não encontrado');
-
-            //Reset Mock
-            sinon.restore();
         });
 
         it('Usando Mocks: Quando informo um usário valido e a transação retorna 201', async () => {
@@ -73,13 +67,6 @@ describe('TransferController', () => {
                 amount: 200,
                 date: new Date().toISOString()
             });
-
-            const responseLogin = await request(app)
-                .post('/login')
-                .send({
-                    username: 'admin',
-                    password: '12345678'
-                });
 
             const response = await request(app)
                 .post('/transfer')
@@ -96,9 +83,6 @@ describe('TransferController', () => {
             expect(response.body.result).to.have.property('from', 'vini');
             expect(response.body.result).to.have.property('to', 'lopes');
             expect(response.body.result).to.have.property('amount', 200);
-
-            //Reset Mock
-            sinon.restore();
         });
 
         it('Validando com arquivo .json: Quando informo um usário valido e a transação retorna 201', async () => {
@@ -109,13 +93,6 @@ describe('TransferController', () => {
                 amount: 200,
                 date: new Date().toISOString()
             });
-
-            const responseLogin = await request(app)
-                .post('/login')
-                .send({
-                    username: 'admin',
-                    password: '12345678'
-                });
 
             const response = await request(app)
                 .post('/transfer')
@@ -134,9 +111,9 @@ describe('TransferController', () => {
 
             expect(response.status).to.equal(201);
             expect(response.body).to.deep.equal(expectedResponse);
-
-            //Reset Mock
-            sinon.restore();
         });
+    });
+    afterEach(() => {
+        sinon.restore();
     });
 });

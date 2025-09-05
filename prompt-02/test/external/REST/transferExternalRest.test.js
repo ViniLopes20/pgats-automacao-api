@@ -3,16 +3,20 @@ const request = require('supertest');
 const {expect} = require('chai');
 
 //Testes
-describe('TransferExternal', () => {
+describe('TransferExternal - REST API', () => {
     describe('POST /transfer', () => {
-        it('Quando informo remetente e destinatário inexistentes recebo 400', async () => {
-            const responseLogin = await request('http://localhost:3000')
+        let responseLogin;
+
+        beforeEach(async () => {
+            responseLogin = await request('http://localhost:3000')
                 .post('/login')
                 .send({
                     username: 'admin',
                     password: '12345678'
                 });
+        });
 
+        it('Quando informo remetente e destinatário inexistentes recebo 400', async () => {
             const response = await request('http://localhost:3000')
                 .post('/transfer')
                 .set({
@@ -29,13 +33,6 @@ describe('TransferExternal', () => {
         });
 
         it('Quando tento transferir para o mesmo usuário do remetente recebo 400', async () => {
-            const responseLogin = await request('http://localhost:3000')
-                .post('/login')
-                .send({
-                    username: 'admin',
-                    password: '12345678'
-                });
-
             const responseRegister = await request('http://localhost:3000')
                 .post('/register')
                 .send({
@@ -61,13 +58,6 @@ describe('TransferExternal', () => {
         });
 
         it('Quando tento transferir um valor maior que o valor do saldo do remetente recebo 400', async () => {
-            const responseLogin = await request('http://localhost:3000')
-                .post('/login')
-                .send({
-                    username: 'admin',
-                    password: '12345678'
-                });
-
             const responseRegister1 = await request('http://localhost:3000')
                 .post('/register')
                 .send({
@@ -102,13 +92,6 @@ describe('TransferExternal', () => {
         });
 
         it('Quando tento transferir um valor acimar de R$5.000,00 para um não favorecido recebo 400', async () => {
-            const responseLogin = await request('http://localhost:3000')
-                .post('/login')
-                .send({
-                    username: 'admin',
-                    password: '12345678'
-                });
-
             const responseRegister1 = await request('http://localhost:3000')
                 .post('/register')
                 .send({
@@ -143,13 +126,6 @@ describe('TransferExternal', () => {
         });
 
         it('Quando tento transferir um valor que o remetente possui na conta para um destinatário válido recebo 201', async () => {
-            const responseLogin = await request('http://localhost:3000')
-                .post('/login')
-                .send({
-                    username: 'admin',
-                    password: '12345678'
-                });
-
             const responseRegister1 = await request('http://localhost:3000')
                 .post('/register')
                 .send({

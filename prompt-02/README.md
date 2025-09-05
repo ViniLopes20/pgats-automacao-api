@@ -8,13 +8,22 @@ Esta API permite login, registro de usuários, consulta de usuários e transfer�
 npm install
 ```
 
-## Inicialização
+## Inicialização REST
 
 ```bash
 npm start
 ```
 
-## Endpoints
+## Inicialização GraphQL
+
+```bash
+cd graphql
+node server.js
+```
+
+O servidor GraphQL ficará disponível em `http://localhost:4000/graphql`.
+
+## Endpoints REST
 
 - `POST /login`: Realiza login. Campos obrigatórios: `username`, `password`.
 - `POST /register`: Registra um novo usuário. Campos obrigatórios: `username`, `password`. Opcional: `favorecido` (boolean) e `saldo` (number).
@@ -22,6 +31,25 @@ npm start
 - `POST /transfer`: Realiza transferência. Campos obrigatórios: `from`, `to`, `amount`.
 - `GET /transfers`: Lista todas as transferências realizadas.
 - `GET /api-docs`: Documentação Swagger da API.
+
+## API GraphQL
+
+### Queries
+
+- `users`: Lista todos os usuários cadastrados.
+- `transfers`: Lista todas as transferências realizadas (requer autenticação JWT).
+
+### Mutations
+
+- `register(username, password, favorecido, saldo)`: Registra um novo usuário.
+- `login(username, password)`: Realiza login e retorna um token JWT.
+- `transfer(from, to, amount)`: Realiza transferência (requer autenticação JWT).
+
+Para autenticar, envie o header:
+
+```
+Authorization: Bearer <token>
+```
 
 ## Regras de Negócio
 

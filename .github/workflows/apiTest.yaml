@@ -23,7 +23,7 @@ jobs:
         run: npm install
         working-directory: ./prompt-03
 
-      - name: Run tests do prompt-03
+      - name: Run tests of prompt-03
         run: npm test
         working-directory: ./prompt-03
 
@@ -31,17 +31,28 @@ jobs:
         run: npm install
         working-directory: ./prompt-02
 
-      - name: Run controller tests do prompt-02
+      - name: Run controller tests of prompt-02
         run: npm run test-controller
         working-directory: ./prompt-02
 
-      - name: Run Server API do prompt-02
-        run: npm start &
+      - name: Run REST Server API of prompt-02
+        run: npm run start-rest &
         working-directory: ./prompt-02
 
-      - name: Wait Server API to start
+      - name: Wait REST Server API to start
         run: sleep 5
 
-      - name: Run external tests do prompt-02
-        run: npm run test-external
+      - name: Run REST external tests of prompt-02
+        run: npm run test-external-rest
+        working-directory: ./prompt-02
+
+      - name: Run GraphQL Server API of prompt-02
+        run: npm run start-graphql &
+        working-directory: ./prompt-02
+
+      - name: Wait GraphQL Server API to start
+        run: sleep 5
+
+      - name: Run GraphQL external tests of prompt-02
+        run: npm run test-external-graphql
         working-directory: ./prompt-02

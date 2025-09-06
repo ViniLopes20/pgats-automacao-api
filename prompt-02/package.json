@@ -7,9 +7,9 @@
         "start-rest": "node server.js",
         "start-graphql": "node graphql/server.js",
         "test": "mocha 'test/**/*.test.js' --timeout 10000 --reporter mochawesome",
-        "test-controller": "mocha 'test/controller/**/*.test.js' --timeout 10000 --reporter mochawesome",
-        "test-external-rest": "mocha 'test/external/REST/**/*.test.js' --timeout 10000 --reporter mochawesome",
-        "test-external-graphql": "mocha 'test/external/GraphQL/**/*.test.js' --timeout 10000 --reporter mochawesome"
+        "test-controller-rest": "mocha 'test/REST/controller/**/*.test.js' --timeout 10000 --reporter mochawesome",
+        "test-external-rest": "mocha 'test/REST/external/**/*.test.js' --timeout 10000 --reporter mochawesome",
+        "test-external-graphql": "mocha 'test/GraphQL/external/**/*.test.js' --timeout 10000 --reporter mochawesome"
     },
     "devDependencies": {
         "mocha": "^10.0.0",

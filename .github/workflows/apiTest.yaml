@@ -32,7 +32,7 @@ jobs:
         working-directory: ./prompt-02
 
       - name: Run controller tests of prompt-02
-        run: npm run test-controller
+        run: npm run test-controller-rest
         working-directory: ./prompt-02
 
       - name: Run REST Server API of prompt-02

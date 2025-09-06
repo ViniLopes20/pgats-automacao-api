@@ -4,11 +4,11 @@ const sinon = require('sinon');
 const {expect} = require('chai');
 
 //Aplicação
-const app = require('../../app');
+const app = require('../../../app');
 const { describe } = require('mocha');
 
 //Mock
-const transferService = require('../../service/transferService');
+const transferService = require('../../../service/transferService');
 
 //Testes
 describe('TransferController', () => {

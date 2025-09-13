@@ -1,16 +1,22 @@
 const request = require('supertest');
+const {expect, use} = require('chai');
+const chaiExclude = require('chai-exclude');
 require('dotenv').config();
+
+use(chaiExclude);
 
 describe('TransferExternal - GraphQL API', () => {
     describe('POST /transfer', () => {
         let token;
+        let createTransfer;
 
         beforeEach(async () => {
+            createTransfer = require('../fixture/requisicoes/transferencia/createTransfer.json');
+
+            const mutationLogin = require('../fixture/requisicoes/login/loginUser.json');
             const responseLogin = await request(process.env.BASE_URL_GRAPHQL)
                 .post('/graphql')
-                .send({
-                    query: mutationLogin
-                });
+                .send(mutationLogin);
 
             token = responseLogin.body.data.login.token;
         });
@@ -209,18 +215,20 @@ describe('TransferExternal - GraphQL API', () => {
             const fromUsername = responseRegister1.body.data.register.username;
             const toUsername = responseRegister2.body.data.register.username;
 
+            createTransfer.variables.amount = 1000
             const responseTransfer = await request(process.env.BASE_URL_GRAPHQL)
                 .post('/graphql')
                 .set({
                     Authorization: `Bearer ${token}`
                 })
-                .send({
-                    query: mutationTransfer
-                });
+                .send(createTransfer);
 
+            const expectResponse = require('../fixture/respostas/transferencia/validarQueEPossivelFazerTransferencia.json');
             expect(responseTransfer.body.data.transfer).to.have.property('from', fromUsername);
             expect(responseTransfer.body.data.transfer).to.have.property('to', toUsername);
             expect(responseTransfer.body.data.transfer).to.have.property('amount', 1000);
+            expect(responseTransfer.body.data.transfer).excluding('date').to.deep.equal(expectResponse.data.transfer);
+
         });
     });
 });

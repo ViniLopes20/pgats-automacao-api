@@ -1,0 +1,10 @@
+{
+    "data": {
+        "transfer": {
+            "amount": 1000,
+            "date": "2025-09-13T22:16:59.708Z",
+            "from": "josé",
+            "to": "deia"
+        }
+    }
+}

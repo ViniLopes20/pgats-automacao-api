@@ -1,19 +1,12 @@
 const request = require('supertest');
-const {expect} = require('chai');
+require('dotenv').config();
 
 describe('TransferExternal - GraphQL API', () => {
     describe('POST /transfer', () => {
         let token;
 
         beforeEach(async () => {
-            const mutationLogin = `
-                mutation {
-                    login(username: "admin", password: "12345678") {
-                        token
-                    }
-                }
-            `;
-            const responseLogin = await request('http://localhost:4000')
+            const responseLogin = await request(process.env.BASE_URL_GRAPHQL)
                 .post('/graphql')
                 .send({
                     query: mutationLogin
@@ -32,7 +25,7 @@ describe('TransferExternal - GraphQL API', () => {
                     }
                 }
             `;
-            const response = await request('http://localhost:4000')
+            const response = await request(process.env.BASE_URL_GRAPHQL)
                 .post('/graphql')
                 .set({
                     Authorization: `Bearer ${token}`
@@ -53,7 +46,7 @@ describe('TransferExternal - GraphQL API', () => {
                     }
                 }
             `;
-            const responseRegister = await request('http://localhost:4000')
+            const responseRegister = await request(process.env.BASE_URL_GRAPHQL)
                 .post('/graphql')
                 .send({
                     query: mutationRegister
@@ -69,7 +62,7 @@ describe('TransferExternal - GraphQL API', () => {
                     }
                 }
             `;
-            const responseTransfer = await request('http://localhost:4000')
+            const responseTransfer = await request(process.env.BASE_URL_GRAPHQL)
                 .post('/graphql')
                 .set({
                     Authorization: `Bearer ${token}`
@@ -90,7 +83,7 @@ describe('TransferExternal - GraphQL API', () => {
                     }
                 }
             `;
-            const responseRegister1 = await request('http://localhost:4000')
+            const responseRegister1 = await request(process.env.BASE_URL_GRAPHQL)
                 .post('/graphql')
                 .send({
                     query: mutationRegister1
@@ -103,7 +96,7 @@ describe('TransferExternal - GraphQL API', () => {
                     }
                 }
             `;
-            const responseRegister2 = await request('http://localhost:4000')
+            const responseRegister2 = await request(process.env.BASE_URL_GRAPHQL)
                 .post('/graphql')
                 .send({
                     query: mutationRegister2
@@ -121,7 +114,7 @@ describe('TransferExternal - GraphQL API', () => {
                     }
                 }
             `;
-            const responseTransfer = await request('http://localhost:4000')
+            const responseTransfer = await request(process.env.BASE_URL_GRAPHQL)
                 .post('/graphql')
                 .set({
                     Authorization: `Bearer ${token}`
@@ -142,7 +135,7 @@ describe('TransferExternal - GraphQL API', () => {
                     }
                 }
             `;
-            const responseRegister1 = await request('http://localhost:4000')
+            const responseRegister1 = await request(process.env.BASE_URL_GRAPHQL)
                 .post('/graphql')
                 .send({
                     query: mutationRegister1
@@ -155,7 +148,7 @@ describe('TransferExternal - GraphQL API', () => {
                     }
                 }
             `;
-            const responseRegister2 = await request('http://localhost:4000')
+            const responseRegister2 = await request(process.env.BASE_URL_GRAPHQL)
                 .post('/graphql')
                 .send({
                     query: mutationRegister2
@@ -173,7 +166,7 @@ describe('TransferExternal - GraphQL API', () => {
                     }
                 }
             `;
-            const responseTransfer = await request('http://localhost:4000')
+            const responseTransfer = await request(process.env.BASE_URL_GRAPHQL)
                 .post('/graphql')
                 .set({
                     Authorization: `Bearer ${token}`
@@ -194,7 +187,7 @@ describe('TransferExternal - GraphQL API', () => {
                     }
                 }
             `;
-            const responseRegister1 = await request('http://localhost:4000')
+            const responseRegister1 = await request(process.env.BASE_URL_GRAPHQL)
                 .post('/graphql')
                 .send({
                     query: mutationRegister1
@@ -207,7 +200,7 @@ describe('TransferExternal - GraphQL API', () => {
                     }
                 }
             `;
-            const responseRegister2 = await request('http://localhost:4000')
+            const responseRegister2 = await request(process.env.BASE_URL_GRAPHQL)
                 .post('/graphql')
                 .send({
                     query: mutationRegister2
@@ -216,16 +209,7 @@ describe('TransferExternal - GraphQL API', () => {
             const fromUsername = responseRegister1.body.data.register.username;
             const toUsername = responseRegister2.body.data.register.username;
 
-            const mutationTransfer = `
-                mutation {
-                    transfer(from: "${fromUsername}", to: "${toUsername}", amount: 1000) {
-                        from
-                        to
-                        amount
-                    }
-                }
-            `;
-            const responseTransfer = await request('http://localhost:4000')
+            const responseTransfer = await request(process.env.BASE_URL_GRAPHQL)
                 .post('/graphql')
                 .set({
                     Authorization: `Bearer ${token}`

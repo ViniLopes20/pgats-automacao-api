@@ -31,6 +31,12 @@ jobs:
         run: npm install
         working-directory: ./prompt-02
 
+      - name: Create .env file for prompt-02
+        run: |
+          echo "BASE_URL_REST=${{ secrets.BASE_URL_REST }}" >> .env
+          echo "BASE_URL_GRAPHQL=${{ secrets.BASE_URL_GRAPHQL }}" >> .env
+        working-directory: ./prompt-02
+
       - name: Run controller tests of prompt-02
         run: npm run test-controller-rest
         working-directory: ./prompt-02

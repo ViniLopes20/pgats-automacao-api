@@ -21,27 +21,42 @@ describe('TransferExternal - GraphQL API', () => {
             token = responseLogin.body.data.login.token;
         });
 
-        it('Quando informo remetente e destinatário inexistentes recebo um erro', async () => {
-            const mutationTransfer = `
-                mutation {
-                    transfer(from: "vini", to: "lopes", amount: 100) {
-                        from
-                        to
-                        amount
-                    }
-                }
-            `;
-            const response = await request(process.env.BASE_URL_GRAPHQL)
-                .post('/graphql')
-                .set({
-                    Authorization: `Bearer ${token}`
-                })
-                .send({
-                    query: mutationTransfer
-                });
+        const testesDeErrosDeNegocio = [
+            {
+                crateTransfer: {
+                    from: "vini",
+                    to: "lopes",
+                    amount: 100
+                },
+                expectMensage: 'Usuário não encontrado'
+            }
+        ];
 
-            expect(response.body.errors[0].message).to.equal('Usuário não encontrado');
-            expect(response.body.errors[0].extensions.code).to.equal('INTERNAL_SERVER_ERROR');
+        testesDeErrosDeNegocio.forEach(testes => {
+            it('Quando informo remetente e destinatário inexistentes recebo um erro', async () => {
+                const mutationTransfer = `
+                        mutation Transfer($to: String!, $amount: Float!, $from: String!) {
+                            transfer(to: $to, amount: $amount, from: $from) {
+                                amount
+                                date
+                                from
+                                to
+                            }
+                        }
+                `;
+                const response = await request(process.env.BASE_URL_GRAPHQL)
+                    .post('/graphql')
+                    .set({
+                        Authorization: `Bearer ${token}`
+                    })
+                    .send({
+                        query: mutationTransfer,
+                        variables: testes.crateTransfer
+                    });
+
+                expect(response.body.errors[0].message).to.equal(testes.expectMensage);
+                expect(response.body.errors[0].extensions.code).to.equal('INTERNAL_SERVER_ERROR');
+            });
         });
 
         it('Quando tento transferir para o mesmo usuário do remetente recebo um erro', async () => {
